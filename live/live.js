@@ -23,10 +23,10 @@ function setup() {
 	// Getting FFT from p5js
 	fft = new p5.FFT(0.5, 64);
 	
-	E = new p5.PeakDetect(20,288,0.35, FFP);
-	F = new p5.PeakDetect(144,720, 0.35, FFP);
-	W = new p5.PeakDetect(570, 1440, 0.35, FFP);
-	A = new p5.PeakDetect(1296, 11520, 0.35, FFP);
+	E = new p5.PeakDetect(20,288, 0, 1);
+	F = new p5.PeakDetect(144,720, 0, 1);
+	W = new p5.PeakDetect(570, 1440, 0,1);
+	A = new p5.PeakDetect(1296, 11520, 0, 1);
 	
   E.onPeak(Earth);
 	F.onPeak(Fire);
@@ -47,6 +47,11 @@ function setup() {
 function draw() {
 	let spectrum = fft.analyze();
 	
+  E.update(fft);
+	F.update(fft);
+	W.update(fft);
+	A.update(fft);
+	
 	//add the new values from the FFT
 	spectra.push(new Spectrum(spectrum));
 	
@@ -56,60 +61,26 @@ function draw() {
 		spectra.splice(startIndex, deleteCount);
 	}
 	
-		//strokeWeight(1);
-	//noStroke();
-	for (j = 0; j < spectra.length; j++) {
-		let spec = spectra[j].getSpectrum();
-		
-		for (i = 0; i < 128; i += 1) {
-			
-			adjust = (i + 1) * (i * 1) / 90; 
-			
-			let hh = 3;
-			let h = map(spec[i] * adjust, 0, 255, 0, hh);
-			
-			print(h);
-			
-			if (h > 10)
-				{
-					drawRandomShape();
-					
-				}
-			/*
-			stroke(100, 0, 0);
-			fill((i)*2, 100, 100);
-			//ambientMaterial();
-			// use specular material with high shininess
-  		//specularMaterial((i+2)*10,  0, 0);
- 			//shininess(50);
-			push();
-			//noStroke();
-			translate(i, j, h/2);
-			//rotateX(PI/2);
-			//rotateZ(PI/2);
-			//cylinder(0.5, h);
-			box(0.85, 0.85, h)
-			pop();
-			*/
-		}
-	}
-	
 }
 
 function Earth() {
-
+		print("Earth")
+    drawRandomShape();
 }
 
 function Fire() {
-
+			print("Fire")
+		drawRandomShape();
 }
 
 function Water() {
-
+			print("Water")
+		drawRandomShape();
 }
 
 function Air() {
-
+		print("Air")
+		drawRandomShape();
 }
 
 // Define class for Spectrum
